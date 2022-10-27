@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { useState } from 'react';
 
+import './App.css';
+import Converter from './converter/Converter';
+import SharedLayout from './SharedLayout';
+import MainCurrencyPage from './secondPageCurrency/MainCurrencyPage';
+import About from './about/About';
 function App() {
+  const [fromCurrency, setFromCurrency] = useState('UAH');
+  const [forCurrencyPage, setForCurrencyPage] = useState();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<SharedLayout />}>
+          <Route
+            index
+            element={
+              <Converter
+                fromCurrency={fromCurrency}
+                forCurrencyPage={forCurrencyPage}
+                setFromCurrency={setFromCurrency}
+                setForCurrencyPage={setForCurrencyPage}
+              />
+            }
+          />
+          <Route
+            path='about'
+            element={
+              <About
+                fromCurrency={fromCurrency}
+                forCurrencyPage={forCurrencyPage}
+              />
+            }
+          />
+          <Route path='currency' element={<MainCurrencyPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
